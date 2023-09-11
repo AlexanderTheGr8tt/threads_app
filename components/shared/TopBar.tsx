@@ -8,7 +8,7 @@ import {
 
 import Image from "next/image";
 import Link from "next/link";
-import { dark } from "@clerk/themes";
+import { dark, shadesOfPurple } from "@clerk/themes";
 
 function TopBar() {
   return (
@@ -36,7 +36,7 @@ function TopBar() {
 
         <OrganizationSwitcher
           appearance={{
-            baseTheme: dark,
+            baseTheme: shadesOfPurple,
             elements: {
               organizationSwitcherTrigger: "py-2 px-4",
             },

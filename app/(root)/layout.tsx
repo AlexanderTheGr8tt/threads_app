@@ -2,7 +2,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import "../globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { dark } from "@clerk/themes";
+import { dark, shadesOfPurple } from "@clerk/themes";
 
 import TopBar from "@/components/shared/TopBar";
 import LeftSideBar from "@/components/shared/LeftSideBar";
@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <ClerkProvider
       appearance={{
-        baseTheme: dark,
+        baseTheme: shadesOfPurple,
       }}
     >
       <html lang="en">
