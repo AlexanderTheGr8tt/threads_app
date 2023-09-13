@@ -44,7 +44,7 @@ const ProfileHeader = ({
 
         <Link href="/profile/edit">
           <button className="community-card_btn h-10 w-25 text-[20px]">
-            <p className="text-[17px]">Edit Profile</p>
+            <p className="text-[14px]">Edit Profile</p>
           </button>
         </Link>
       </div>

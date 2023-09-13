@@ -44,7 +44,7 @@ async function Page({
                 username={person.username}
                 imgUrl={person.image}
                 personType="User"
-                style="bg-dark-3 rounded-xl py-8 px-10 hover:bg-dark-4 "
+                style="bg-dark-3 rounded-xl py-5 px-7 hover:bg-dark-4 "
               />
             ))}
           </>

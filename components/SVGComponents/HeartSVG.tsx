@@ -5,7 +5,7 @@ const MySVG = (
     height="24"
     viewBox="0 0 24 24"
     fill="none"
-    className="w-8 h-8 text-current transition-colors duration-300"
+    className="w-6 h-6 text-current transition-colors duration-300"
   >
     <path
       fill="currentColor"
