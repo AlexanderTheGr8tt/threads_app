@@ -27,7 +27,9 @@ const LeftSidebar = () => {
             <Link
               href={link.route}
               key={link.label}
-              className={`leftsidebar_link ${isActive && "bg-primary-500 "}`}
+              className={`leftsidebar_link ${
+                isActive && "bg-primary-500 "
+              } hover:bg-primary-600`}
             >
               <Image
                 src={link.imgURL}
@@ -36,7 +38,9 @@ const LeftSidebar = () => {
                 height={24}
               />
 
-              <p className="text-light-1 max-lg:hidden">{link.label}</p>
+              <p className="text-[20px] text-light-2 max-lg:hidden">
+                {link.label}
+              </p>
             </Link>
           );
         })}
@@ -45,7 +49,7 @@ const LeftSidebar = () => {
       <div className="mt-10 px-6">
         <SignedIn>
           <SignOutButton signOutCallback={() => router.push("/sign-in")}>
-            <div className="flex cursor-pointer gap-4 p-4">
+            <div className="flex cursor-pointer gap-4 p-4 hover:bg-dark-5 hover:rounded-xl">
               <Image
                 src="/assets/logout.svg"
                 alt="logout"
@@ -53,7 +57,7 @@ const LeftSidebar = () => {
                 height={24}
               />
 
-              <p className="text-light-2 max-lg:hidden">Logout</p>
+              <p className="text-light-2 text-[20px] max-lg:hidden">Logout</p>
             </div>
           </SignOutButton>
         </SignedIn>

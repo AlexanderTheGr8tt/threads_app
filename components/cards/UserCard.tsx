@@ -12,12 +12,22 @@ interface Props {
   username: string;
   imgUrl: string;
   personType: string;
+  style?: string;
 }
 
-const UserCard = ({ key, id, name, username, imgUrl, personType }: Props) => {
+const UserCard = ({
+  key,
+  id,
+  name,
+  username,
+  imgUrl,
+  personType,
+  style,
+}: Props) => {
   const router = useRouter();
+
   return (
-    <article className="user-card">
+    <article className={`user-card ${style}`}>
       <div className="user-card_avatar">
         <Image
           src={imgUrl}
@@ -28,17 +38,17 @@ const UserCard = ({ key, id, name, username, imgUrl, personType }: Props) => {
         />
 
         <div className="flex-1 text-ellipsis">
-          <h4 className="text-base-semibold text-light-1">{name}</h4>
-          <p className="text-small-medium text-gray-1">{username}</p>
+          <h4 className="text-[20px] font-semibold text-light-1">{name}</h4>
+          <p className="text-[17px] text-gray-1">{username}</p>
         </div>
       </div>
 
-      <Button
-        className="user-card_btn"
+      <button
+        className="community-card_btn h-10 w-25 text-[20px]"
         onClick={() => router.push(`/profile/${id}`)}
       >
-        View
-      </Button>
+        <p className="text-[17px]">View</p>
+      </button>
     </article>
   );
 };

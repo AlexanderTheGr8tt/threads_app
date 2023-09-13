@@ -20,6 +20,7 @@ import { usePathname, useRouter } from "next/navigation";
 // import { updateUser } from "@/lib/actions/user.actions";
 import { ThreadValidation } from "@/lib/validations/thread";
 import { createThread } from "@/lib/actions/thread.actions";
+import { useOrganization } from "@clerk/clerk-react";
 
 interface Props {
   user: {
@@ -36,6 +37,7 @@ interface Props {
 function PostThread({ userId }: { userId: string }) {
   const router = useRouter();
   const pathname = usePathname();
+  const { organization } = useOrganization();
 
   const form = useForm({
     resolver: zodResolver(ThreadValidation),
@@ -46,10 +48,12 @@ function PostThread({ userId }: { userId: string }) {
   });
 
   const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
+    console.log(organization);
+
     await createThread({
       text: values.thread,
       author: userId,
-      communityId: null,
+      communityId: organization ? organization.id : null,
       path: pathname,
     });
 
@@ -67,7 +71,7 @@ function PostThread({ userId }: { userId: string }) {
           name="thread"
           render={({ field }) => (
             <FormItem className="flex flex-col w-full gap-3">
-              <FormLabel className="text-base-semibold text-light-2">
+              <FormLabel className="text-[19px] text-light-2">
                 Content
               </FormLabel>
               <FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
@@ -77,10 +81,11 @@ function PostThread({ userId }: { userId: string }) {
             </FormItem>
           )}
         />
-
-        <Button type="submit" className="bg-primary-500">
-          Post Thread
-        </Button>
+        <div className=" text-5xl flex flex-col w-full">
+          <Button type="submit" className="bg-primary-500 hover:bg-primary-600">
+            Post Thread
+          </Button>
+        </div>
       </form>
     </Form>
   );

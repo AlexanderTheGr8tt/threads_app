@@ -36,7 +36,7 @@ async function Page() {
           <>
             {activity.map((activity) => (
               <Link key={activity._id} href={`/thread/${activity.parentId}`}>
-                <article className="activity-card">
+                <article className="activity-card bg-dark-3 rounded-xl p-8 hover:bg-dark-5">
                   <Image
                     src={activity.author.image}
                     alt="user_logo"
@@ -44,8 +44,8 @@ async function Page() {
                     height={20}
                     className="rounded-full object-cover"
                   />
-                  <p className="!text-small-regular text-light-1">
-                    <span className="mr-1 text-primary-500">
+                  <p className="!text-[20px] text-light-1">
+                    <span className="mr-1 text-primary-600">
                       {activity.author.name}
                     </span>{" "}
                     replied to your thread

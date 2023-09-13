@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import { Button } from "../ui/button";
 
 interface Props {
   accountId: string;
@@ -7,6 +9,7 @@ interface Props {
   username: string;
   imgUrl: string;
   bio: string;
+  type?: "User" | "Community";
 }
 
 const ProfileHeader = ({
@@ -16,11 +19,12 @@ const ProfileHeader = ({
   username,
   imgUrl,
   bio,
+  type,
 }: Props) => {
   return (
     <div className="flex w-full flex-col justify-start">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 ">
           <div className="relative h-20 w-20 object-cover">
             <Image
               src={imgUrl}
@@ -37,6 +41,12 @@ const ProfileHeader = ({
             <p className="text-base-medium text-gray-1">@{username}</p>
           </div>
         </div>
+
+        <Link href="/profile/edit">
+          <button className="community-card_btn h-10 w-25 text-[20px]">
+            <p className="text-[17px]">Edit Profile</p>
+          </button>
+        </Link>
       </div>
 
       {/* TODO community */}
