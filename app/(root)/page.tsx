@@ -1,11 +1,19 @@
 import ThreadCard from "@/components/cards/ThreadCard";
 import { fetchPosts } from "@/lib/actions/thread.actions";
+import { fetchUser } from "@/lib/actions/user.actions";
 import { UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs";
+import { string } from "zod";
 
 export default async function Home() {
   const result = await fetchPosts(1, 30);
   const user = await currentUser();
+
+  let currentAccount: any;
+
+  if (user) {
+    currentAccount = await fetchUser(user.id);
+  }
 
   return (
     <>
@@ -21,6 +29,7 @@ export default async function Home() {
                 key={post._id}
                 id={post._id}
                 currentUserId={user?.id || ""}
+                userObjectId={currentAccount._id}
                 parentId={post.parentId}
                 content={post.text}
                 author={post.author}

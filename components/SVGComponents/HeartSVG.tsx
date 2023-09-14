@@ -1,3 +1,9 @@
+"use client";
+
+import { likeThread, unlikeThread } from "@/lib/actions/thread.actions";
+import { ObjectId } from "mongoose";
+import { useState } from "react";
+
 const MySVG = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -14,11 +20,29 @@ const MySVG = (
   </svg>
 );
 
-function HeartSVG() {
+interface Props {
+  userObjectId: string;
+  threadId: string;
+}
+
+function HeartSVG({ userObjectId, threadId }: Props) {
+  const [isLiked, setIsLiked] = useState(false);
+
+  const toggleLike = (threadId: string, userObjectId: string) => {
+    if (isLiked === false) {
+      likeThread(threadId, userObjectId);
+      setIsLiked(true);
+    } else {
+      unlikeThread(threadId, userObjectId);
+      setIsLiked(false);
+    }
+  };
+
   return (
     <div
-      className={` text-light-4
+      className={`  ${!isLiked ? "text-light-4" : "text-red-500"}
          cursor-pointer object-contain hover:text-red-500`}
+      onClick={() => toggleLike(threadId, userObjectId)}
     >
       {MySVG}
     </div>

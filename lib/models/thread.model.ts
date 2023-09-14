@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+const { ObjectId } = mongoose.Schema;
 
 const threadSchema = new mongoose.Schema({
   text: {
@@ -27,10 +28,10 @@ const threadSchema = new mongoose.Schema({
       ref: "Thread",
     },
   ],
-  likes: [
+  like: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // You can reference the User model to keep track of users who liked the thread.
+      ref: "User",
     },
   ],
 });

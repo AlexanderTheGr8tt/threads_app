@@ -7,6 +7,10 @@ import { connectToDB } from "../mongoose";
 import User from "../models/user.model";
 import Thread from "../models/thread.model";
 import Community from "../models/community.model";
+import { NextApiRequest, NextApiResponse } from "next";
+import { Db } from "mongodb";
+import { ObjectId } from "mongoose";
+import { randomUUID } from "crypto";
 
 export async function fetchPosts(pageNumber = 1, pageSize = 20) {
   connectToDB();
@@ -49,7 +53,7 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
 }
 
 interface Params {
-  text: string;
+  text: string | null;
   author: string;
   communityId: string | null;
   path: string;
@@ -245,48 +249,42 @@ export async function addCommentToThread(
 
 export async function likeThread(threadId: string, userId: string) {
   connectToDB();
-  try {
-    // Find the thread by its ID
-    const thread = await Thread.findById(threadId);
 
-    if (!thread) {
-      throw new Error("Thread not found");
-    }
+  const originalThread = await Thread.findById(threadId);
 
-    // Check if the user has already liked the thread
-    if (thread.likes.includes(userId)) {
-      // User has already liked the thread, remove the like
-      thread.likes.pull(userId);
-    } else {
-      // User hasn't liked the thread, add the like
-      thread.likes.push(userId);
-    }
+  if (!originalThread) throw new Error("Thread not found");
 
-    // Save the updated thread with the likes
-    await thread.save();
-  } catch (error) {
-    console.error("Error while liking/unliking thread:", error);
-    throw new Error("Unable to like/unlike thread");
-  }
+  originalThread.like.push({
+    _id: userId,
+  });
+  await originalThread.save();
+
+  console.log(`User ${userId} liked the thread with ID ${threadId}`);
 }
 
-export async function hasUserLikedThread(threadId: string, userId: string) {
-  connectToDB();
-  try {
-    // Find the thread by its ID
-    const thread = await Thread.findById(threadId);
+export async function unlikeThread(threadId: string, userId: string) {
+  await connectToDB(); // Make sure you connect to the database before querying
 
-    if (!thread) {
-      throw new Error("Thread not found");
-    }
+  const originalThread = await Thread.findById(threadId);
 
-    // Check if the user has liked the thread
-    return thread.likes.includes(userId);
-  } catch (error) {
-    console.error(
-      "Error while checking if the user has liked the thread:",
-      error
-    );
-    throw new Error("Unable to check like status");
+  if (!originalThread) {
+    throw new Error("Thread not found");
   }
+
+  // Find the index of the user's ID in the like array
+  const likeIndex = originalThread.like.indexOf(userId);
+
+  // Check if the user has already liked the thread
+  if (likeIndex === -1) {
+    console.log("User has not liked this thread, cannot unlike.");
+    return;
+  }
+
+  // Remove the user's ID from the like array
+  originalThread.like.splice(likeIndex, 1);
+
+  // Save the updated document back to the database
+  await originalThread.save();
+
+  console.log(`User ${userId} unliked the thread with ID ${threadId}`);
 }

@@ -1,9 +1,10 @@
 import { redirect } from "next/navigation";
 
 import { fetchCommunityPosts } from "@/lib/actions/community.actions";
-import { fetchUserPosts } from "@/lib/actions/user.actions";
+import { fetchUser, fetchUserPosts } from "@/lib/actions/user.actions";
 
 import ThreadCard from "../cards/ThreadCard";
+import { currentUser } from "@clerk/nextjs";
 
 interface Result {
   name: string;
@@ -24,6 +25,7 @@ interface Result {
       image: string;
     } | null;
     createdAt: string;
+    userObjectId: string;
     children: {
       author: {
         image: string;

@@ -11,6 +11,7 @@ import ShareSVG from "../SVGComponents/ShareSVG";
 interface Props {
   id: string;
   currentUserId: string;
+
   parentId: string | null;
   content: string;
   author: {
@@ -30,6 +31,7 @@ interface Props {
     };
   }[];
   isComment?: boolean;
+  userObjectId?: string;
 }
 
 function ThreadCard({
@@ -42,6 +44,7 @@ function ThreadCard({
   createdAt,
   comments,
   isComment,
+  userObjectId = "",
 }: Props) {
   return (
     <article
@@ -78,7 +81,7 @@ function ThreadCard({
 
             <div className={`${isComment && "mb-4"} mt-5 flex flex-col gap-3`}>
               <div className="flex gap-7">
-                <HeartSVG />
+                <HeartSVG threadId={id} userObjectId={userObjectId} />
 
                 <Link href={`/thread/${id}`}>
                   <ReplySVG />
