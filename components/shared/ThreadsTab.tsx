@@ -41,6 +41,12 @@ interface Props {
 }
 
 async function ThreadsTab({ currentUserId, accountId, accountType }: Props) {
+  let currentAccount: any;
+
+  if (currentUserId) {
+    currentAccount = await fetchUser(currentUserId);
+  }
+
   let result: Result;
 
   if (accountType === "Community") {
@@ -60,6 +66,7 @@ async function ThreadsTab({ currentUserId, accountId, accountType }: Props) {
           key={thread._id}
           id={thread._id}
           currentUserId={currentUserId}
+          userObjectId={currentAccount._id}
           parentId={thread.parentId}
           content={thread.text}
           author={

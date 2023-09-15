@@ -7,6 +7,8 @@ import HeartSVG from "../SVGComponents/HeartSVG";
 import ReplySVG from "../SVGComponents/ReplySVG";
 import RepostSVG from "../SVGComponents/RepostSVG";
 import ShareSVG from "../SVGComponents/ShareSVG";
+import { threadId } from "worker_threads";
+import { hasLikedThread } from "@/lib/actions/thread.actions";
 
 interface Props {
   id: string;
@@ -34,7 +36,7 @@ interface Props {
   userObjectId?: string;
 }
 
-function ThreadCard({
+async function ThreadCard({
   id,
   currentUserId,
   parentId,
@@ -46,6 +48,8 @@ function ThreadCard({
   isComment,
   userObjectId = "",
 }: Props) {
+  const liked = await hasLikedThread(id, userObjectId);
+
   return (
     <article
       className={`flex w-full flex-col rounded-xl ${
@@ -81,7 +85,11 @@ function ThreadCard({
 
             <div className={`${isComment && "mb-4"} mt-5 flex flex-col gap-3`}>
               <div className="flex gap-7">
-                <HeartSVG threadId={id} userObjectId={userObjectId} />
+                <HeartSVG
+                  threadId={id}
+                  userObjectId={userObjectId}
+                  liked={liked}
+                />
 
                 <Link href={`/thread/${id}`}>
                   <ReplySVG />

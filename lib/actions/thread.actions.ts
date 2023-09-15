@@ -259,7 +259,7 @@ export async function likeThread(threadId: string, userId: string) {
   });
   await originalThread.save();
 
-  console.log(`User ${userId} liked the thread with ID ${threadId}`);
+  // console.log(`User ${userId} liked the thread with ID ${threadId}`);
 }
 
 export async function unlikeThread(threadId: string, userId: string) {
@@ -286,5 +286,23 @@ export async function unlikeThread(threadId: string, userId: string) {
   // Save the updated document back to the database
   await originalThread.save();
 
-  console.log(`User ${userId} unliked the thread with ID ${threadId}`);
+  // console.log(`User ${userId} unliked the thread with ID ${threadId}`);
+}
+
+export async function hasLikedThread(
+  threadId: string,
+  userId: string
+): Promise<boolean> {
+  await connectToDB(); // Make sure you connect to the database before querying
+
+  const originalThread = await Thread.findById(threadId);
+
+  if (!originalThread) {
+    throw new Error("Thread not found");
+  }
+
+  // Check if the user's ID is in the like array
+  const hasLiked = originalThread.like.includes(userId);
+
+  return hasLiked;
 }

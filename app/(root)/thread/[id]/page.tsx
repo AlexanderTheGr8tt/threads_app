@@ -11,6 +11,12 @@ const Page = async ({ params }: { params: { id: string } }) => {
   const user = await currentUser();
   if (!user) return null;
 
+  // let currentAccount: any;
+
+  // if (user) {
+  //   currentAccount = await fetchUser(user.id);
+  // }
+
   const userInfo = await fetchUser(user.id);
   if (!userInfo?.onboarded) redirect("/onboarding");
 
@@ -23,6 +29,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
           key={thread._id}
           id={thread._id}
           currentUserId={user?.id || ""}
+          userObjectId={userInfo._id}
           parentId={thread.parentId}
           content={thread.text}
           author={thread.author}
@@ -47,6 +54,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
               key={childItem._id}
               id={childItem._id}
               currentUserId={user?.id || ""}
+              userObjectId={userInfo._id}
               parentId={childItem.parentId}
               content={childItem.text}
               author={childItem.author}

@@ -1,7 +1,12 @@
 "use client";
 
-import { likeThread, unlikeThread } from "@/lib/actions/thread.actions";
+import {
+  hasLikedThread,
+  likeThread,
+  unlikeThread,
+} from "@/lib/actions/thread.actions";
 import { ObjectId } from "mongoose";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const MySVG = (
@@ -11,7 +16,7 @@ const MySVG = (
     height="24"
     viewBox="0 0 24 24"
     fill="none"
-    className="w-6 h-6 text-current transition-colors duration-300"
+    className="w-6 h-6 text-current transition-colors "
   >
     <path
       fill="currentColor"
@@ -23,29 +28,32 @@ const MySVG = (
 interface Props {
   userObjectId: string;
   threadId: string;
+  liked: boolean;
 }
 
-function HeartSVG({ userObjectId, threadId }: Props) {
-  const [isLiked, setIsLiked] = useState(false);
+async function HeartSVG({ userObjectId, threadId, liked }: Props) {
+  const router = useRouter();
 
-  const toggleLike = (threadId: string, userObjectId: string) => {
-    if (isLiked === false) {
+  const toggleLike = async (threadId: string, userObjectId: string) => {
+    if (!liked) {
       likeThread(threadId, userObjectId);
-      setIsLiked(true);
+      router.refresh();
     } else {
       unlikeThread(threadId, userObjectId);
-      setIsLiked(false);
+      router.refresh();
     }
   };
 
   return (
-    <div
-      className={`  ${!isLiked ? "text-light-4" : "text-red-500"}
-         cursor-pointer object-contain hover:text-red-500`}
+    <button
+      type="submit"
+      className={`${
+        liked ? "text-red-500" : "text-light-4"
+      } cursor-pointer object-contain hover:text-red-500`}
       onClick={() => toggleLike(threadId, userObjectId)}
     >
       {MySVG}
-    </div>
+    </button>
   );
 }
 
