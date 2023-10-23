@@ -95,9 +95,9 @@ async function ThreadCard({
                   <ReplySVG />
                 </Link>
 
-                <RepostSVG />
+                {/* <RepostSVG />
 
-                <ShareSVG />
+                <ShareSVG /> */}
               </div>
 
               {isComment && comments.length > 0 && (
